@@ -1,1 +1,1 @@
-# Loop the object array in table.
+# Gulp daily uses node modules. 
