@@ -5,6 +5,28 @@ var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
 const autoprefixer = require('gulp-autoprefixer');
 var imagemin = require('gulp-imagemin');
+var cache = require('gulp-cache');
+var del = require('del');
+var spritesmith  = require('gulp.spritesmith');
+
+
+gulp.task('sprite', function() {
+    var spriteData = 
+        gulp.src('client/images/spr/*.*') 
+            .pipe(spritesmith({
+                imgName: '../images/sprite.png',
+                cssName: '_sprite.scss',
+                cssFormat: 'scss',
+                algorithm: 'binary-tree',
+                cssTemplate: 'handlebarsInheritance.scss.handlebars',
+                cssVarMap: function(sprite) {
+                    sprite.name = 's-' + sprite.name
+                }
+            }));
+
+    spriteData.img.pipe(gulp.dest('images/')); // путь, куда сохраняем картинку
+    spriteData.css.pipe(gulp.dest('sass/')); // путь, куда сохраняем стили
+});
 
 
 gulp.task('images', function() {
@@ -15,9 +37,16 @@ gulp.task('images', function() {
       imagemin.optipng(),
       // imagemin.svgo([{removeViewBox: false}, {minifyStyles: false}])
     ], {verbose: true}))
+    .pipe(cache(imagemin({
+        interlaced: true
+      })))
+
     .pipe(gulp.dest('images'));
 });
 
+// gulp.task('clean:dist', function() {
+//   return del.sync('dist');
+// })
 
 gulp.task('browserSync', function() {
   browserSync.init({
@@ -71,7 +100,8 @@ gulp.task('watch',['sass','browserSync'], function() {
    // Watch image files
   gulp.watch('client/images/**/*', ['images']);
   // gulp.watch('images/**/*', ['images']);
+  gulp.watch('*.html', browserSync.reload); 
  });
 
 
-gulp.task('default', ['scripts','images','watch']);
+gulp.task('default', ['sprite','scripts','images','watch']);
