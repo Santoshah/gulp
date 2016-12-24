@@ -1,0 +1,16 @@
+<table>
+	<thead>
+		<tr>
+			<td>Name</td>
+			<td>Role</td>
+			<td>Salary</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="employee in employees.slice().reverse()">
+			<td>{{employee.name}}</td>
+			<td>{{employee.role}}</td>
+			<td>{{employee.salary}}</td>
+		</tr>
+	</tbody>
+</table>

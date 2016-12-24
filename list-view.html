@@ -1,0 +1,10 @@
+<ul>
+	<li ng-repeat="country in countries.slice().reverse()">
+		{{country.name}}
+		<ul>
+			<li ng-repeat="city in country.cities.slice().reverse()">
+				{{city.name}}
+			</li>
+		</ul>
+	</li>
+</ul>
