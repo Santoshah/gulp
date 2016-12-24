@@ -7,6 +7,8 @@ app.filter("gender", function() {
 			return "Female";
 			case 3:
 			return "Third Gender";
+			case 4:
+			// return "fourth Gender";
 		} 
 	}
 });

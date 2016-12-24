@@ -7,7 +7,7 @@ const autoprefixer = require('gulp-autoprefixer');
 var imagemin = require('gulp-imagemin');
 
 
-gulp.task('imgmin', function() {
+gulp.task('images', function() {
   return gulp.src('client/images/**/*')
     .pipe(imagemin([
       // imagemin.gifsicle({interlaced: true}),
@@ -55,7 +55,7 @@ gulp.task('sass', function () {
 //     // .pipe(gulp.dest('app/assets/temp'));
 // });
 
-gulp.task('myBuild', function() {
+gulp.task('scripts', function() {
     return gulp.src('client/js/*.js')
       .pipe(concat('main.js'))
       .pipe(minify())
@@ -63,15 +63,15 @@ gulp.task('myBuild', function() {
 });
 
 
-gulp.task('watch',['browserSync','sass','imgmin'], function() {
+gulp.task('watch',['sass','browserSync'], function() {
    // Watch .js files
   gulp.watch('client/js/*.js', ['scripts']);
    // Watch .scss files
   gulp.watch('sass/*.scss', ['sass']);
    // Watch image files
-  gulp.watch('client/images/**/*', ['imgmin']);
+  gulp.watch('client/images/**/*', ['images']);
+  // gulp.watch('images/**/*', ['images']);
  });
 
 
-
-gulp.task('default', ['myBuild','imgmin','sass','watch']);
+gulp.task('default', ['scripts','images','watch']);
